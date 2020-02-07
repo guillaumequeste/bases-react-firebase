@@ -1,3 +1,6 @@
+email : demo@demo.fr
+password : demo123
+
 Dans cet exemple, tous les fichiers sont au même niveau dans le dossier "src", sauf le fichier ".env" qui est à la racine du projet
 
 - Créer projet React (bases-react-firebase)
