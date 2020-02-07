@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Accueil from "./Accueil";
 import Login from "./authentification/Login";
 import SignUp from "./SignUp";
 import Admin from "./admin/Admin";
@@ -15,7 +16,8 @@ const App = () => {
     <AuthProvider>
       <Router>
         <div>
-          <Route exact path="/" component={Login} />
+          <Route exact path="/" component={Accueil} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
           <PrivateRoute exact path="/admin" component={Admin} />
           <PrivateRoute path='/create' component={Create} />

@@ -26,13 +26,78 @@
     firebase.firestore().settings(settings);
     export default firebase;
 
-- créer les fichiers "Create.js", "Show.js" et "Edit.js"
+- créer le fichier "Accueil.js" :
+    import React, { Component } from 'react'
+    import { Link } from 'react-router-dom';
+    import firebase from "./base";
+    class Accueil extends Component {
+        constructor(props) {
+            super(props);
+            this.ref = firebase.firestore().collection('users');
+            this.unsubscribe = null;
+            this.state = {
+            users: []
+            };
+        }
+        onCollectionUpdate = (querySnapshot) => {
+            const users = [];
+            querySnapshot.forEach((doc) => {
+            const { nom, prenom, age } = doc.data();
+            users.push({
+                key: doc.id,
+                doc, // DocumentSnapshot
+                nom,
+                prenom,
+                age,
+            });
+            });
+            this.setState({
+            users
+        });
+        }
+        componentDidMount() {
+            this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+        }
+        render () {
+            return (
+                <div>
+                    <h3>Accueil</h3>
+                    <Link to="/login">Login</Link>
+                    <table class="table table-stripe">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Age</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.state.users.map(user =>
+                            <tr>
+                            <td>{user.nom}</td>
+                            <td>{user.prenom}</td>
+                            <td>{user.age}</td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+    }
+    export default Accueil
 
-- ajouter les routes :
+- ajouter les routes (App.js) :
+    import Accueil from "./Accueil";
+    import Login from "./authentification/Login";
+    import SignUp from "./SignUp";
     import Admin from "./admin/Admin";
     import Create from './admin/Create';
     import Show from './admin/Show';
     import Edit from './admin/Edit';
+    <Route exact path="/" component={Accueil} />
+    <Route exact path="/login" component={Login} />
+    <Route exact path="/signup" component={SignUp} />
     <PrivateRoute exact path="/admin" component={Admin} />
     <PrivateRoute path='/create' component={Create} />
     <PrivateRoute path='/show/:id' component={Show} />
