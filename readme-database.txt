@@ -29,12 +29,14 @@
 - créer les fichiers "Create.js", "Show.js" et "Edit.js"
 
 - ajouter les routes :
-    import Edit from './admin/Edit';
+    import Admin from "./admin/Admin";
     import Create from './admin/Create';
     import Show from './admin/Show';
-    <PrivateRoute path='/edit/:id' component={Edit} />
+    import Edit from './admin/Edit';
+    <PrivateRoute exact path="/admin" component={Admin} />
     <PrivateRoute path='/create' component={Create} />
     <PrivateRoute path='/show/:id' component={Show} />
+    <PrivateRoute path='/edit/:id' component={Edit} />
 
 - réécrire "Admin.js" :
     import React, { Component } from "react";
@@ -277,6 +279,7 @@
         return (
         <div>
             <h3>EDIT Utilisateur</h3>
+            <Link to="/admin">Liste des utilisateurs</Link>
             <h4><Link to={`/show/${this.state.key}`}>Liste des utilisateurs</Link></h4>
             <form onSubmit={this.onSubmit}>
                 <div class="form-group">

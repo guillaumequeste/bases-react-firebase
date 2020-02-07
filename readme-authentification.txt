@@ -58,8 +58,7 @@ Dans cet exemple, tous les fichiers sont au même niveau dans le dossier "src", 
             <AuthProvider>
             <Router>
                 <div>
-                <PrivateRoute exact path="/" component={Home} />
-                <Route exact path="/login" component={Login} />
+                <PrivateRoute exact path="/" component={Login} />
                 <Route exact path="/signup" component={SignUp} />
                 </div>
             </Router>
@@ -81,7 +80,7 @@ Dans cet exemple, tous les fichiers sont au même niveau dans le dossier "src", 
                 !!currentUser ? (
                 <RouteComponent {...routeProps} />
                 ) : (
-                <Redirect to={"/login"} />
+                <Redirect to={"/"} />
                 )
             }
             />

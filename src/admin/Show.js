@@ -38,7 +38,7 @@ class Show extends Component {
   render() {
     return (
       <div>
-        <h4><Link to="/admin">User List</Link></h4>
+        <h4><Link to="/admin">Liste des utilisateurs</Link></h4>
         <h3 class="panel-title">{this.state.user.nom}</h3>
         <dl>
             <dt>Prenom:</dt>

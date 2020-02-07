@@ -63,7 +63,8 @@ class Edit extends Component {
     return (
       <div>
         <h3>EDIT Utilisateur</h3>
-        <h4><Link to={`/show/${this.state.key}`}>Liste des utilisateurs</Link></h4>
+        <Link to="/admin">Liste des utilisateurs</Link>
+        <h4><Link to={`/show/${this.state.key}`}>Fiche</Link></h4>
         <form onSubmit={this.onSubmit}>
             <div class="form-group">
                 <label for="nom">Nom:</label>
