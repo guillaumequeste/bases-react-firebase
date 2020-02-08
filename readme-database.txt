@@ -1,6 +1,10 @@
 - dans la console, cliquer dans le menu de gauche sur "Database"
 
 - créer une base de données
+    -> créer une collection : nom string dupont
+                              prenom string bernard
+                              age number 38
+                              photo string https://...
 
 - mode test
 
