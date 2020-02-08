@@ -9,7 +9,8 @@ class Create extends Component {
     this.state = {
       nom: '',
       prenom: '',
-      age: ''
+      age: '',
+      photo: ''
     };
   }
 
@@ -21,16 +22,18 @@ class Create extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { nom, prenom, age } = this.state;
+    const { nom, prenom, age, photo } = this.state;
     this.ref.add({
       nom,
       prenom,
-      age
+      age,
+      photo
     }).then((docRef) => {
       this.setState({
         nom: '',
         prenom: '',
-        age: ''
+        age: '',
+        photo: ''
       });
       this.props.history.push("/admin")
     })
@@ -40,7 +43,7 @@ class Create extends Component {
   }
 
   render() {
-    const { nom, prenom, age } = this.state;
+    const { nom, prenom, age, photo } = this.state;
     return (
       <div>
         <h3>Création d'un utilisateur</h3>
@@ -57,6 +60,10 @@ class Create extends Component {
             <div className="form-group">
               <label htmlFor="age">Age:</label>
               <input type="number" className="form-control" name="age" value={age} onChange={this.onChange} placeholder="Age" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="photo">Photo:</label>
+              <textarea className="form-control" name="photo" value={photo} onChange={this.onChange} placeholder="url de la photo" cols="80" rows="3" />
             </div>
             <button type="submit" className="btn btn-success">Submit</button>
           </form>

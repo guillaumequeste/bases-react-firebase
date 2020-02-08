@@ -40,13 +40,14 @@
         onCollectionUpdate = (querySnapshot) => {
             const users = [];
             querySnapshot.forEach((doc) => {
-            const { nom, prenom, age } = doc.data();
+            const { nom, prenom, age, photo } = doc.data();
             users.push({
                 key: doc.id,
                 doc, // DocumentSnapshot
                 nom,
                 prenom,
                 age,
+                photo
             });
             });
             this.setState({
@@ -67,6 +68,7 @@
                             <th>Nom</th>
                             <th>Prenom</th>
                             <th>Age</th>
+                            <th>Photo</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -75,6 +77,7 @@
                             <td>{user.nom}</td>
                             <td>{user.prenom}</td>
                             <td>{user.age}</td>
+                            <td><img src={`${user.photo}`} /></td>
                             </tr>
                         )}
                         </tbody>
@@ -117,13 +120,14 @@
     onCollectionUpdate = (querySnapshot) => {
         const users = [];
         querySnapshot.forEach((doc) => {
-        const { nom, prenom, age } = doc.data();
+        const { nom, prenom, age, photo } = doc.data();
         users.push({
             key: doc.id,
             doc, // DocumentSnapshot
             nom,
             prenom,
             age,
+            photo
         });
         });
         this.setState({
@@ -145,6 +149,7 @@
                     <th>Nom</th>
                     <th>Prenom</th>
                     <th>Age</th>
+                    <th>Photo</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -153,6 +158,7 @@
                     <td><Link to={`/show/${user.key}`}>{user.nom}</Link></td>
                     <td>{user.prenom}</td>
                     <td>{user.age}</td>
+                    <td><img src={`${user.photo}`} /></td>
                     </tr>
                 )}
                 </tbody>
@@ -208,6 +214,8 @@
                 <dd>{this.state.user.prenom}</dd>
                 <dt>Age:</dt>
                 <dd>{this.state.user.age}</dd>
+                <dt>Photo:</dt>
+                <img src={`${this.state.user.photo}`} />
             </dl>
             <Link to={`/edit/${this.state.key}`} class="btn btn-success">Edit</Link>&nbsp;
             <button onClick={this.delete.bind(this, this.state.key)} class="btn btn-danger">Delete</button>
@@ -228,7 +236,8 @@
         this.state = {
         nom: '',
         prenom: '',
-        age: ''
+        age: '',
+        photo: ''
         };
     }
     onChange = (e) => {
@@ -238,16 +247,18 @@
     }
     onSubmit = (e) => {
         e.preventDefault();
-        const { nom, prenom, age } = this.state;
+        const { nom, prenom, age, photo } = this.state;
         this.ref.add({
         nom,
         prenom,
-        age
+        age,
+        photo
         }).then((docRef) => {
         this.setState({
             nom: '',
             prenom: '',
-            age: ''
+            age: '',
+            photo: ''
         });
         this.props.history.push("/admin")
         })
@@ -256,7 +267,7 @@
         });
     }
     render() {
-        const { nom, prenom, age } = this.state;
+        const { nom, prenom, age, photo } = this.state;
         return (
         <div>
             <h3>Création d'un utilisateur</h3>
@@ -274,6 +285,10 @@
                     <label htmlFor="age">Age:</label>
                     <input type="number" class="form-control" name="age" value={age} onChange={this.onChange} placeholder="Age" />
                 </div>
+                <div className="form-group">
+                    <label htmlFor="photo">Photo:</label>
+                    <textarea className="form-control" name="photo" value={photo} onChange={this.onChange} placeholder="url de la photo" cols="80" rows="3" />
+                    </div>
                 <button type="submit" className="btn btn-success">Submit</button>
                 </form>
         </div>
@@ -293,19 +308,21 @@
         key: '',
         nom: '',
         prenom: '',
-        age: ''
+        age: '',
+        photo: ''
         };
     }
     componentDidMount() {
         const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
         ref.get().then((doc) => {
         if (doc.exists) {
-            const board = doc.data();
+            const user = doc.data();
             this.setState({
             key: doc.id,
-            nom: board.nom,
-            prenom: board.prenom,
-            age: board.age
+            nom: user.nom,
+            prenom: user.prenom,
+            age: user.age,
+            photo: user.photo
             });
         } else {
             console.log("No such document!");
@@ -320,18 +337,20 @@
     }
     onSubmit = (e) => {
         e.preventDefault();
-        const { nom, prenom, age } = this.state;
+        const { nom, prenom, age, photo } = this.state;
         const updateRef = firebase.firestore().collection('users').doc(this.state.key);
         updateRef.set({
         nom,
         prenom,
-        age
+        age,
+        photo
         }).then((docRef) => {
         this.setState({
             key: '',
             nom: '',
             prenom: '',
-            age: ''
+            age: '',
+            photo: ''
         });
         this.props.history.push("/show/"+this.props.match.params.id)
         })
@@ -358,6 +377,10 @@
                     <label for="age">Age:</label>
                     <input type="number" class="form-control" name="age" value={this.state.age} onChange={this.onChange} placeholder="Age" />
                 </div>
+                <div className="form-group">
+                    <label for="photo">Photo:</label>
+                    <input type="text" class="form-control" name="photo" value={this.state.photo} onChange={this.onChange} placeholder="url de la photo" />
+                </div>
                 <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>
@@ -369,6 +392,6 @@
 
 
 Console firebase -> database -> règles :
-allow read, write: if request.time < timestamp.date(2020, 3, 8);
+allow read, write: if request.time < timestamp.date(2020, 3, 8); (initialement)
 allow read, write: if request.auth != null;
-allow read, write: if true;
+allow read, write: if true; (ce qu'il faut mettre ?)

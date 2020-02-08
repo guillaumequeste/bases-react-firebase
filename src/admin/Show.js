@@ -45,6 +45,8 @@ class Show extends Component {
             <dd>{this.state.user.prenom}</dd>
             <dt>Age:</dt>
             <dd>{this.state.user.age}</dd>
+            <dt>Photo:</dt>
+            <img src={`${this.state.user.photo}`} />
         </dl>
         <Link to={`/edit/${this.state.key}`} className="btn btn-success">Edit</Link>&nbsp;
         <button onClick={this.delete.bind(this, this.state.key)} className="btn btn-danger">Delete</button>

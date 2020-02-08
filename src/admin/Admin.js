@@ -15,13 +15,14 @@ class Admin extends Component {
   onCollectionUpdate = (querySnapshot) => {
     const users = [];
     querySnapshot.forEach((doc) => {
-      const { nom, prenom, age } = doc.data();
+      const { nom, prenom, age, photo } = doc.data();
       users.push({
         key: doc.id,
         doc, // DocumentSnapshot
         nom,
         prenom,
-        age
+        age,
+        photo
       });
     });
     this.setState({
@@ -45,6 +46,7 @@ class Admin extends Component {
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Age</th>
+                <th>Photo</th>
               </tr>
             </thead>
             <tbody>
@@ -53,6 +55,7 @@ class Admin extends Component {
                   <td><Link to={`/show/${user.key}`}>{user.nom}</Link></td>
                   <td>{user.prenom}</td>
                   <td>{user.age}</td>
+                  <td><img src={`${user.photo}`} /></td>
                 </tr>
               )}
             </tbody>

@@ -9,7 +9,8 @@ class Edit extends Component {
       key: '',
       nom: '',
       prenom: '',
-      age: ''
+      age: '',
+      photo: ''
     };
   }
 
@@ -17,12 +18,13 @@ class Edit extends Component {
     const ref = firebase.firestore().collection('users').doc(this.props.match.params.id);
     ref.get().then((doc) => {
       if (doc.exists) {
-        const board = doc.data();
+        const user = doc.data();
         this.setState({
           key: doc.id,
-          nom: board.nom,
-          prenom: board.prenom,
-          age: board.age
+          nom: user.nom,
+          prenom: user.prenom,
+          age: user.age,
+          photo: user.photo
         });
       } else {
         console.log("No such document!");
@@ -39,18 +41,20 @@ class Edit extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { nom, prenom, age } = this.state;
+    const { nom, prenom, age, photo } = this.state;
     const updateRef = firebase.firestore().collection('users').doc(this.state.key);
     updateRef.set({
       nom,
       prenom,
-      age
+      age,
+      photo
     }).then((docRef) => {
       this.setState({
         key: '',
         nom: '',
         prenom: '',
-        age: ''
+        age: '',
+        photo: ''
       });
       this.props.history.push("/show/"+this.props.match.params.id)
     })
@@ -77,6 +81,10 @@ class Edit extends Component {
             <div className="form-group">
                 <label for="age">Age:</label>
                 <input type="number" className="form-control" name="age" value={this.state.age} onChange={this.onChange} placeholder="Age" />
+            </div>
+            <div className="form-group">
+                <label for="photo">Photo:</label>
+                <input type="text" class="form-control" name="photo" value={this.state.photo} onChange={this.onChange} placeholder="url de la photo" />
             </div>
             <button type="submit" className="btn btn-success">Submit</button>
         </form>

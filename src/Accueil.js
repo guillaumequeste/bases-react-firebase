@@ -15,13 +15,14 @@ class Accueil extends Component {
     onCollectionUpdate = (querySnapshot) => {
         const users = [];
         querySnapshot.forEach((doc) => {
-          const { nom, prenom, age } = doc.data();
+          const { nom, prenom, age, photo } = doc.data();
           users.push({
             key: doc.id,
             doc, // DocumentSnapshot
             nom,
             prenom,
             age,
+            photo
           });
         });
         this.setState({
@@ -44,6 +45,7 @@ class Accueil extends Component {
                         <th>Nom</th>
                         <th>Prenom</th>
                         <th>Age</th>
+                        <th>Photo</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -52,6 +54,7 @@ class Accueil extends Component {
                         <td>{user.nom}</td>
                         <td>{user.prenom}</td>
                         <td>{user.age}</td>
+                        <td><img src={`${user.photo}`} /></td>
                         </tr>
                     )}
                     </tbody>
