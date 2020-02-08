@@ -12,7 +12,6 @@
     import * as firebase from "firebase";
     import "firebase/auth";
     import firestore from 'firebase/firestore'
-    const settings = {timestampsInSnapshots: true};
     const config = {
         apiKey: process.env.REACT_APP_FIREBASE_KEY,
         authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
@@ -23,7 +22,6 @@
         appId: process.env.REACT_APP_FIREBASE_APP_ID
     };
     firebase.initializeApp(config);
-    firebase.firestore().settings(settings);
     export default firebase;
 
 - créer le fichier "Accueil.js" :
@@ -72,8 +70,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {this.state.users.map(user =>
-                            <tr>
+                        {this.state.users.map((user, id) =>
+                            <tr key={id}>
                             <td>{user.nom}</td>
                             <td>{user.prenom}</td>
                             <td>{user.age}</td>
@@ -139,6 +137,7 @@
         return (
         <div>
             <h3>BOARD LIST</h3>
+            <h4><Link to="/">Accueil</Link></h4>
             <h4><Link to="/create">Créer un utilisateur</Link></h4>
             <table class="table table-stripe">
                 <thead>
@@ -149,8 +148,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                {this.state.users.map(user =>
-                    <tr>
+                {this.state.users.map((user, id) =>
+                    <tr key={id}>
                     <td><Link to={`/show/${user.key}`}>{user.nom}</Link></td>
                     <td>{user.prenom}</td>
                     <td>{user.age}</td>
@@ -264,18 +263,18 @@
             <h4><Link to="/admin">Liste des utilisateurs</Link></h4>
                 <form onSubmit={this.onSubmit}>
                 <div class="form-group">
-                    <label for="nom">Nom:</label>
+                    <label htmlFor="nom">Nom:</label>
                     <input type="text" class="form-control" name="nom" value={nom} onChange={this.onChange} placeholder="Nom" />
                 </div>
                 <div class="form-group">
-                    <label for="prenom">Prenom:</label>
-                    <textArea class="form-control" name="prenom" onChange={this.onChange} placeholder="Prenom" cols="80" rows="3">{prenom}</textArea>
+                    <label htmlFor="prenom">Prenom:</label>
+                    <textarea class="form-control" name="prenom" onChange={this.onChange} placeholder="Prenom" cols="80" rows="3" />
                 </div>
                 <div class="form-group">
-                    <label for="age">Age:</label>
+                    <label htmlFor="age">Age:</label>
                     <input type="number" class="form-control" name="age" value={age} onChange={this.onChange} placeholder="Age" />
                 </div>
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" className="btn btn-success">Submit</button>
                 </form>
         </div>
         );
@@ -366,3 +365,10 @@
     }
     }
     export default Edit;
+
+
+
+Console firebase -> database -> règles :
+allow read, write: if request.time < timestamp.date(2020, 3, 8);
+allow read, write: if request.auth != null;
+allow read, write: if true;

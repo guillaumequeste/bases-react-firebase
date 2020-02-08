@@ -31,14 +31,14 @@ class Accueil extends Component {
     
       componentDidMount() {
         this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-    }
+    };
 
     render () {
         return (
             <div>
                 <h3>Accueil</h3>
                 <Link to="/login">Login</Link>
-                <table class="table table-stripe">
+                <table className="table table-stripe">
                     <thead>
                     <tr>
                         <th>Nom</th>
@@ -47,8 +47,8 @@ class Accueil extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.state.users.map(user =>
-                        <tr>
+                    {this.state.users.map((user, id) =>
+                        <tr key={id}>
                         <td>{user.nom}</td>
                         <td>{user.prenom}</td>
                         <td>{user.age}</td>

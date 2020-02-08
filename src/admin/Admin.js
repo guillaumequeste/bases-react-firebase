@@ -21,7 +21,7 @@ class Admin extends Component {
         doc, // DocumentSnapshot
         nom,
         prenom,
-        age,
+        age
       });
     });
     this.setState({
@@ -37,8 +37,9 @@ class Admin extends Component {
     return (
       <div>
         <h3>BOARD LIST</h3>
+        <h4><Link to="/">Accueil</Link></h4>
         <h4><Link to="/create">Créer un utilisateur</Link></h4>
-          <table class="table table-stripe">
+          <table className="table table-stripe">
             <thead>
               <tr>
                 <th>Nom</th>
@@ -47,8 +48,8 @@ class Admin extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.users.map(user =>
-                <tr>
+              {this.state.users.map((user, id) =>
+                <tr key={id}>
                   <td><Link to={`/show/${user.key}`}>{user.nom}</Link></td>
                   <td>{user.prenom}</td>
                   <td>{user.age}</td>

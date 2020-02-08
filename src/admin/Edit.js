@@ -66,19 +66,19 @@ class Edit extends Component {
         <Link to="/admin">Liste des utilisateurs</Link>
         <h4><Link to={`/show/${this.state.key}`}>Fiche</Link></h4>
         <form onSubmit={this.onSubmit}>
-            <div class="form-group">
+            <div className="form-group">
                 <label for="nom">Nom:</label>
-                <input type="text" class="form-control" name="nom" value={this.state.nom} onChange={this.onChange} placeholder="Nom" />
+                <input type="text" className="form-control" name="nom" value={this.state.nom} onChange={this.onChange} placeholder="Nom" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
                 <label for="prenom">Prenom:</label>
                 <input type="text" class="form-control" name="prenom" value={this.state.prenom} onChange={this.onChange} placeholder="Prenom" />
             </div>
-            <div class="form-group">
+            <div className="form-group">
                 <label for="age">Age:</label>
-                <input type="number" class="form-control" name="age" value={this.state.age} onChange={this.onChange} placeholder="Age" />
+                <input type="number" className="form-control" name="age" value={this.state.age} onChange={this.onChange} placeholder="Age" />
             </div>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" className="btn btn-success">Submit</button>
         </form>
       </div>
     );
